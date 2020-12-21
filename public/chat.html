@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat App</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+    crossorigin="anonymous"></script>
     <link rel="icon" href="./img/favicon.png">
     <link rel="stylesheet" href="./css/styles.min.css">
 </head>
@@ -14,11 +16,12 @@
         </div>
     <div class="chat__main">
             <div id="messages" class="chat__messages">
-
             </div>
+            <div class="typing" style="margin-left: 25px; background-color: lightblue ; 
+            margin: 0 auto 0 25px; font-weight: bold;"></div>
          <div class="compose">
              <form id="message-form">
-                <input name="message" placeholder="Message" required autocomplete="off"> 
+                <input id="message-box-check" name="message" placeholder="Message" required autocomplete="off"> 
                 <button>Send</button>
              </form>
              <button id="send-location">Send Location</button>

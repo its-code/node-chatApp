@@ -1,4 +1,7 @@
 const socket = io()
+var user
+var typing=false;
+var timeout=undefined;
 
 // Elements for Message Form
 const $messageForm = document.querySelector('#message-form')
@@ -41,15 +44,16 @@ const autoScroll = ()=>{
 
 }
 
+
 socket.on('message', (message)=>{
     const html = Mustache.render(renderMessage, {
-        username: message.username,
-        message: message.text,
-        createdAt: moment(message.createdAt).format('h:mm a')
-    })
+    username: message.username,
+    message: message.text,
+    createdAt: moment(message.createdAt).format('h:mm a')
+})
 
-    $messages.insertAdjacentHTML('beforeend',html)
-    autoScroll()
+$messages.insertAdjacentHTML('beforeend',html)
+autoScroll()
 })
 
 
@@ -117,3 +121,35 @@ socket.emit('join', {username,room}, (error)=>{
         location.href = '/'
     }
 })
+
+
+$(document).ready(function(){
+    $('#message-box-check').keypress((e)=>{
+      if(e.which!=13){
+        typing=true
+        socket.emit('typing', {user:username, typing:true})
+        clearTimeout(timeout)
+        timeout=setTimeout(typingTimeout, 3000)
+      }else{
+        clearTimeout(timeout)
+        typingTimeout()
+        //sendMessage() function will be called once the user hits enter 
+        
+      }
+    })
+
+    //code explained later
+    socket.on('display', (data)=>{
+      if(data.typing==true)
+        $('.typing').text(`${data.user} is typing...`)
+      else
+        $('.typing').text("")
+    })
+})
+
+
+
+function typingTimeout(){
+    typing=false
+    socket.emit('typing', {user:user, typing:false})
+}

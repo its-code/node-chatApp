@@ -17,7 +17,7 @@ const publicPathDir = path.join(__dirname,'../public')
 app.use(express.static(publicPathDir))
 
 io.on('connection', (socket)=>{
-    socket.on('join', ( options, callback)=>{
+    socket.on('join', (options, callback)=>{
         
         const { error,user } = addUser({ id:socket.id, ...options })
 
@@ -36,6 +36,14 @@ io.on('connection', (socket)=>{
 
         callback()
     })
+
+    socket.on('typing', (data)=>{
+        // console.log(data)
+        if(data.typing==true)
+           io.emit('display', data)
+        else
+           io.emit('display', data)
+     })
 
     socket.on('sendMessage', (message, callback)=>{
         const filter = new Filter()
