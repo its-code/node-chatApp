@@ -38,7 +38,7 @@ io.on('connection', (socket)=>{
     })
 
     socket.on('typing', (data)=>{
-        // console.log(data)
+
         if(data.typing==true)
            io.emit('display', data)
         else

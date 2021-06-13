@@ -122,6 +122,7 @@ socket.emit('join', {username,room}, (error)=>{
     }
 })
 
+// For Typing notification in real time 
 
 $(document).ready(function(){
     $('#message-box-check').keypress((e)=>{
